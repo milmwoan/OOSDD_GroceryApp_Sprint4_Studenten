@@ -50,8 +50,39 @@ namespace Grocery.Core.Services
         }
 
         public List<BestSellingProducts> GetBestSellingProducts(int topX = 5)
+
         {
-            throw new NotImplementedException();
+            var allBoughtItems = _groceriesRepository.GetAll(); // haalt alle verkochte producten op
+
+            var groupedItems = allBoughtItems
+                .GroupBy(item => item.ProductId) // verkochte producten worden gegroepeerd op productID
+                .Select(group =>
+                {
+                    var product = _productRepository.Get(group.Key);
+
+                    return new
+                    {
+                        ProductId = group.Key,
+                        ProductName = product?.Name ?? "Onbekend product", // als Product.Name null is, wordt deze string ingevoerd
+                        Stock = product?.Stock ?? 0, // als product.Stock null is, wordt de stock 0
+                        NrOfSells = group.Sum(item => item.Amount) // per groep(product) worden de amounts bij elkaar opgeteld
+                    };
+                })
+                .OrderByDescending(p => p.NrOfSells) //van hoog naar laag sorteren
+                .Take(topX)
+                .ToList();
+
+            var bestSellingProducts = groupedItems // zet de gegroepeerde items om in bestsellingproducts en geeft elk item een ranking mee
+                .Select((item, index) => new BestSellingProducts(
+                    item.ProductId,
+                    item.ProductName,
+                    item.Stock,
+                    item.NrOfSells,
+                    index + 1 // zodat de ranking start op 1
+                ))
+                .ToList();
+
+            return bestSellingProducts;
         }
 
         private void FillService(List<GroceryListItem> groceryListItems)
