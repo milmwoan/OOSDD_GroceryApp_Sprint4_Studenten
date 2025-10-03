@@ -17,12 +17,12 @@ namespace Grocery.Core.Services
             _clientRepository = clientRepository;
         }
         
-        public Client? Get(string email)
+        public Client Get(string email)
         {
             return _clientRepository.Get(email);
         }
 
-        public Client? Get(int id)
+        public Client Get(int id)
         {
             return _clientRepository.Get(id);
         }

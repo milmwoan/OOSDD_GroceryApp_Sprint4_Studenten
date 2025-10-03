@@ -34,17 +34,17 @@ namespace Grocery.Core.Services
             return _groceriesRepository.Add(item);
         }
 
-        public GroceryListItem? Delete(GroceryListItem item)
+        public GroceryListItem Delete(GroceryListItem item)
         {
             throw new NotImplementedException();
         }
 
-        public GroceryListItem? Get(int id)
+        public GroceryListItem Get(int id)
         {
             return _groceriesRepository.Get(id);
         }
 
-        public GroceryListItem? Update(GroceryListItem item)
+        public GroceryListItem Update(GroceryListItem item)
         {
             return _groceriesRepository.Update(item);
         }
@@ -52,13 +52,13 @@ namespace Grocery.Core.Services
         public List<BestSellingProducts> GetBestSellingProducts(int topX = 5)
 
         {
-            var allBoughtItems = _groceriesRepository.GetAll(); // haalt alle verkochte producten op
+            List<GroceryListItem> allBoughtItems = _groceriesRepository.GetAll(); // haalt alle verkochte producten op
 
             var groupedItems = allBoughtItems
                 .GroupBy(item => item.ProductId) // verkochte producten worden gegroepeerd op productID
                 .Select(group =>
                 {
-                    var product = _productRepository.Get(group.Key);
+                    Product product = _productRepository.Get(group.Key);
 
                     return new
                     {
@@ -72,7 +72,7 @@ namespace Grocery.Core.Services
                 .Take(topX)
                 .ToList();
 
-            var bestSellingProducts = groupedItems // zet de gegroepeerde items om in bestsellingproducts en geeft elk item een ranking mee
+            List<BestSellingProducts> bestSellingProducts = groupedItems // zet de gegroepeerde items om in bestsellingproducts en geeft elk item een ranking mee
                 .Select((item, index) => new BestSellingProducts(
                     item.ProductId,
                     item.ProductName,

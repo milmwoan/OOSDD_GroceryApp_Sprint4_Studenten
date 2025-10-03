@@ -11,9 +11,9 @@ namespace Grocery.Core.Services
         {
             _clientService = clientService;
         }
-        public Client? Login(string email, string password)
+        public Client Login(string email, string password)
         {
-            Client? client = _clientService.Get(email);
+            Client client = _clientService.Get(email);
             if (client == null) return null;
             if (PasswordHelper.VerifyPassword(password, client.Password)) return client;
             return null;

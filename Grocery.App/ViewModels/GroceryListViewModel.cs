@@ -25,7 +25,7 @@ namespace Grocery.App.ViewModels
             _groceryListService = groceryListService;
            _globalViewModel = globalViewModel;
             GroceryLists = new(_groceryListService.GetAll());
-            clientName = _globalViewModel.Client.Name;
+            clientName = _globalViewModel.Client.Name; // Client naam wordt opgehaald uit de globalviewmodal
             
         }
         

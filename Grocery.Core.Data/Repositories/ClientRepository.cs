@@ -18,15 +18,15 @@ namespace Grocery.Core.Data.Repositories
             ];
         }
 
-        public Client? Get(string email)
+        public Client Get(string email)
         {
-            Client? client = clientList.FirstOrDefault(c => c.EmailAddress.Equals(email));
+            Client client = clientList.FirstOrDefault(c => c.EmailAddress.Equals(email));
             return client;
         }
 
-        public Client? Get(int id)
+        public Client Get(int id)
         {
-            Client? client = clientList.FirstOrDefault(c => c.Id == id);
+            Client client = clientList.FirstOrDefault(c => c.Id == id);
             return client;
         }
 
