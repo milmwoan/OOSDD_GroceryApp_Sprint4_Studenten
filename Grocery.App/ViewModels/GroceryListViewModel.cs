@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Grocery.Core.Enums;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Grocery.Core.Services;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace Grocery.App.ViewModels
 {
@@ -10,13 +14,21 @@ namespace Grocery.App.ViewModels
     {
         public ObservableCollection<GroceryList> GroceryLists { get; set; }
         private readonly IGroceryListService _groceryListService;
+        private readonly GlobalViewModel _globalViewModel;
 
-        public GroceryListViewModel(IGroceryListService groceryListService) 
+        [ObservableProperty]
+        string clientName = "";
+        
+        public GroceryListViewModel(IGroceryListService groceryListService,GlobalViewModel globalViewModel) 
         {
             Title = "Boodschappenlijst";
             _groceryListService = groceryListService;
+           _globalViewModel = globalViewModel;
             GroceryLists = new(_groceryListService.GetAll());
+            clientName = _globalViewModel.Client.Name;
+            
         }
+        
 
         [RelayCommand]
         public async Task SelectGroceryList(GroceryList groceryList)
@@ -34,6 +46,20 @@ namespace Grocery.App.ViewModels
         {
             base.OnDisappearing();
             GroceryLists.Clear();
+        }
+        [RelayCommand]
+        public async Task ShowBoughtProducts()
+        {
+            // Controleer of de Client admin is
+            if (_globalViewModel.Client.UserRole == Role.Admin)
+            {
+                await Shell.Current.GoToAsync(nameof(Views.BoughtProductsView));
+            }
+            else
+            {
+                // Niet admin → doe niets, of toon optioneel een waarschuwing
+                return;
+            }
         }
     }
 }
