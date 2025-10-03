@@ -25,14 +25,16 @@ namespace Grocery.Core.Services
             throw new NotImplementedException();
         }
 
-        public GroceryList? Get(int id)
+        public GroceryList Get(int id)
         {
             return _groceryRepository.Get(id);
         }
 
-        public GroceryList? Update(GroceryList item)
+        public GroceryList Update(GroceryList item)
         {
-            return _groceryRepository.Update(item);
+            
+                return _groceryRepository.Update(item);
+            
         }
     }
 }

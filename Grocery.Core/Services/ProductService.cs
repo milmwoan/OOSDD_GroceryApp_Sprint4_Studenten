@@ -33,7 +33,7 @@ namespace Grocery.Core.Services
             throw new NotImplementedException();
         }
 
-        public Product? Update(Product item)
+        public Product Update(Product item)
         {
             return _productRepository.Update(item);
         }

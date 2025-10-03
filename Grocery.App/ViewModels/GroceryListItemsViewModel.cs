@@ -30,7 +30,7 @@ namespace Grocery.App.ViewModels
             _groceryListItemsService = groceryListItemsService;
             _productService = productService;
             _fileSaverService = fileSaverService;
-            Load(groceryList.Id);
+            Load(groceryList.Id); // haalt beschikbare producten op voor één specifieke GroceryList
         }
 
         private void Load(int id)
@@ -40,7 +40,7 @@ namespace Grocery.App.ViewModels
             GetAvailableProducts();
         }
 
-        private void GetAvailableProducts()
+        private void GetAvailableProducts() //Voegt producten met een stock groter dan 0 toe aan een lijst van beschikbare producten
         {
             AvailableProducts.Clear();
             foreach (Product p in _productService.GetAll())
@@ -60,7 +60,7 @@ namespace Grocery.App.ViewModels
             await Shell.Current.GoToAsync($"{nameof(ChangeColorView)}?Name={GroceryList.Name}", true, paramater);
         }
         [RelayCommand]
-        public void AddProduct(Product product)
+        public void AddProduct(Product product) // voegt een beschikbaar product toe aan de grocerylist
         {
             if (product == null) return;
             GroceryListItem item = new(0, GroceryList.Id, product.Id, 1);
@@ -95,16 +95,16 @@ namespace Grocery.App.ViewModels
         }
 
         [RelayCommand]
-        public void IncreaseAmount(int productId)
+        public void IncreaseAmount(int productId) 
         {
             GroceryListItem? item = MyGroceryListItems.FirstOrDefault(x => x.ProductId == productId);
             if (item == null) return;
             if (item.Amount >= item.Product.Stock) return;
             item.Amount++;
-            _groceryListItemsService.Update(item);
+            _groceryListItemsService.Update(item); //Update grocerylistitem amount
             item.Product.Stock--;
-            _productService.Update(item.Product);
-            OnGroceryListChanged(GroceryList);
+            _productService.Update(item.Product); //update product stock
+            OnGroceryListChanged(GroceryList); //herlaad de grocerylist
         }
 
         [RelayCommand]
@@ -114,10 +114,10 @@ namespace Grocery.App.ViewModels
             if (item == null) return;
             if (item.Amount <= 0) return;
             item.Amount--;
-            _groceryListItemsService.Update(item);
+            _groceryListItemsService.Update(item); // update grocerylistitem amount
             item.Product.Stock++;
-            _productService.Update(item.Product);
-            OnGroceryListChanged(GroceryList);
+            _productService.Update(item.Product); // update stock
+            OnGroceryListChanged(GroceryList); //herlaad de grocerylist
         }
     }
 }

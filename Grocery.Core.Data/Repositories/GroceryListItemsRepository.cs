@@ -41,14 +41,14 @@ namespace Grocery.Core.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public GroceryListItem? Get(int id)
+        public GroceryListItem Get(int id)
         {
             return groceryListItems.FirstOrDefault(g => g.Id == id);
         }
 
-        public GroceryListItem? Update(GroceryListItem item)
+        public GroceryListItem Update(GroceryListItem item)
         {
-            GroceryListItem? listItem = groceryListItems.FirstOrDefault(i => i.Id == item.Id);
+            GroceryListItem listItem = groceryListItems.FirstOrDefault(i => i.Id == item.Id);
             listItem = item;
             return listItem;
         }

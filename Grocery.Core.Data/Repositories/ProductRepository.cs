@@ -19,7 +19,7 @@ namespace Grocery.Core.Data.Repositories
             return products;
         }
 
-        public Product? Get(int id)
+        public Product Get(int id)
         {
             return products.FirstOrDefault(p => p.Id == id);
         }
@@ -29,14 +29,14 @@ namespace Grocery.Core.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Product? Delete(Product item)
+        public Product Delete(Product item)
         {
             throw new NotImplementedException();
         }
 
-        public Product? Update(Product item)
+        public Product Update(Product item)
         {
-            Product? product = products.FirstOrDefault(p => p.Id == item.Id);
+            Product product = products.FirstOrDefault(p => p.Id == item.Id);
             if (product == null) return null;
             product.Id = item.Id;
             return product;
