@@ -5,7 +5,7 @@
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              x:Class="Grocery.App.Views.BoughtProductsView"
              x:DataType="vm:BoughtProductsViewModel"
-             Title="BoughtProductsView">
+             Title="Verkochte producten">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -15,9 +15,10 @@
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Klik op onderstaand pijltje om een product te selecteren:"
+        <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Selecteer een product"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
+        ItemDisplayBinding="{Binding Name}"   
         SelectedIndexChanged="Picker_SelectedIndexChanged"
         BackgroundColor="{StaticResource Primary}"
             TextColor="{StaticResource Secondary}">
@@ -35,6 +36,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <!-- Toon hier de naam van de Client naam van de boodschappenlijst -->
+                            <Label Grid.Column="0" Text="{Binding GroceryList.Name}" FontAttributes="Bold" />
+                            <Label Grid.Column="1" Text="{Binding Client.Name}" FontAttributes="Bold" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
